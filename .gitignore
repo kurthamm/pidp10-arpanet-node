@@ -1,0 +1,27 @@
+# Generated/runtime files
+logs/
+*.log
+*.hardcopy
+*.pid
+*.sock
+__pycache__/
+*.pyc
+
+# PDP-10 / SIMH disk images and large generated artifacts
+*.rim
+*.sav
+*.dmp
+*.DMP
+rp03.*
+*.ckd
+*.tap
+*.bin
+*.zip
+*.tar
+*.tar.gz
+
+# Local/private configuration
+.env
+*.local
+secrets/
+backups/

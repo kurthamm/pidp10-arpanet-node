@@ -1,0 +1,31 @@
+cd /opt/pidp10/systems/its-arpa51
+expect -p "DSKDMP" send "ITS\rIMPUS=\eG\r" ; continue
+expect -p "DO YOU REALLY WANT THE SYSTEM TO GO DOWN?\r_" send "yc\c"
+
+SET CONSOLE TELNET=BUFFERED=144
+set cons -u telnet=1025
+
+# Optional demo behavior: restore clean packs at boot.
+!cp -a /opt/pidp10/src/its/out/pdp10-ka/rp03.[0-3] /opt/pidp10/src/its/out/pdp10-ka/dskdmp.rim /opt/pidp10/systems/its-arpa51/
+
+# Start the local IMP bridge before enabling the KA10 IMP interface.
+!/home/pi/arpanet-bridge/start-imp41.sh
+
+set cpu its
+set cpu 1024k
+set cpu idle
+set cpu mpx
+
+set imp enabled
+set imp ncp
+at -u imp 20412:127.0.0.1:20411
+
+at ptr ./dskdmp.rim
+at dpa0 ./rp03.2
+at dpa1 ./rp03.3
+at dpa2 ./rp03.0
+at dpa3 ./rp03.1
+set imp mpx=4
+set dpa noheaders
+
+b ptr
