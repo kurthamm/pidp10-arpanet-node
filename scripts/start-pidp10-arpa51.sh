@@ -7,4 +7,4 @@ done
 sleep 3
 cp -a /opt/pidp10/src/its/out/pdp10-ka/rp03.[0-3] /opt/pidp10/src/its/out/pdp10-ka/dskdmp.rim /opt/pidp10/systems/its-arpa51/
 /home/pi/arpanet-bridge/start-imp41.sh
-screen -dmS pidp10 /opt/pidp10/bin/pdp10-ka-ncp /opt/pidp10/systems/its-arpa51/boot.pi
+screen -dmS pidp10 /opt/pidp10/bin/pdp10-ka-ncp-pidp /opt/pidp10/systems/its-arpa51/boot.pi

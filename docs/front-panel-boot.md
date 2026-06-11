@@ -28,11 +28,11 @@ Stock ITS remains available as:
 
 The ARPA51 profile must use the NCP-capable KA10 simulator, not the stock KA simulator.
 
-Patch `/opt/pidp10/bin/pdpcontrol.sh` so that when the selected profile is `its-arpa51`, it selects `pdp10-ka-ncp`:
+Patch `/opt/pidp10/bin/pdpcontrol.sh` so that when the selected profile is `its-arpa51`, it selects `pdp10-ka-ncp-pidp`:
 
 ```sh
 if [ "$sel" = "its-arpa51" ]; then
-    pidp_bin="pdp10-ka-ncp"
+    pidp_bin="pdp10-ka-ncp-pidp"
 fi
 ```
 

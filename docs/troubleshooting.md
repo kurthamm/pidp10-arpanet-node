@@ -10,6 +10,7 @@
 | DSKDMP gets `FNF` or `PKNMTD` during boot | Boot command was mistyped or raced | Use SIMH `expect`; do not type DSKDMP commands through an external script after startup |
 | `set imp ncp` fails | Wrong KA10 simulator binary | Use Lars' NCP-capable KA10 simulator as `pdp10-ka-ncp` |
 | Stock PiDP ITS starts instead of ARPA51 | Front-panel mapping or launcher binary selection is wrong | Check `/opt/pidp10/systems/selections` and `pdpcontrol.sh` |
+| ARPA51 is reachable but front-panel LEDs are dark | NCP simulator was built without PiDP GPIO support | Rebuild Lars' KA10 with `PIDP10=1`, PiDP `utils/pinctrl`, and install as `pdp10-ka-ncp-pidp` |
 | Pi IMP link not established | Tailscale/UDP endpoint mismatch or wrong port pair | Check both IMP configs and `ss -uanp` on both machines |
 | `Unknown ITS PDP-10` banner | Generic ITS machine name | Optional cosmetic issue; set a proper ITS machine identity later |
 

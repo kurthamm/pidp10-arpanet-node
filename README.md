@@ -31,7 +31,7 @@ The result is that users can type `@L 41` in the hosted terminal and reach the P
 ## Key requirements
 
 - A working PiDP-10 Raspberry Pi installation.
-- Lars Brinkhoff's NCP-capable KA10 simulator build available as `pdp10-ka-ncp`.
+- Lars Brinkhoff's NCP-capable KA10 simulator rebuilt with PiDP-10 front-panel support and installed as `pdp10-ka-ncp-pidp`.
 - A separate ITS profile for the ARPANET host, for example `/opt/pidp10/systems/its-arpa51`.
 - A simulated H316 IMP on the Pi, configured as IMP `41`.
 - A stable UDP path between the Pi IMP and the ARPANET simulation host. Tailscale is recommended.

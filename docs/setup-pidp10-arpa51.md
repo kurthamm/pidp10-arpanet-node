@@ -17,10 +17,47 @@ its-arpa51
 - Lars Brinkhoff's NCP-capable KA10 simulator built and installed as:
 
 ```text
-/opt/pidp10/bin/pdp10-ka-ncp
+/opt/pidp10/bin/pdp10-ka-ncp-pidp
 ```
 
-The stock KA10 binaries do not provide the required `set imp ncp` behavior.
+The stock KA10 binaries do not provide the required `set imp ncp` behavior. A plain NCP KA10 build may work on the network but leave the PiDP-10 front panel dark. Build with `PIDP10=1` so the simulator includes `ka10_pipanel.c` and the GPIO support files.
+
+
+## Build the combined NCP + PiDP front-panel simulator
+
+The ARPA51 profile needs one binary with both features:
+
+- Lars' NCP support for `set imp ncp`.
+- PiDP-10 GPIO/front-panel support.
+
+Install the build dependency used by the PiDP panel code:
+
+```sh
+sudo apt-get update
+sudo apt-get install -y libeditreadline-dev
+```
+
+In the Lars `ka10-simh` work tree, copy the PiDP GPIO helper sources from the stock PiDP-10 source tree and patch the makefile so `PIDP10=1` includes them:
+
+```sh
+cd /home/pi/work-ka10-simh-ncp
+mkdir -p utils
+cp -a /opt/pidp10/src/pidp10/src/utils/pinctrl utils/pinctrl
+# Patch makefile: add PANELD/PIDPPANEL and include `${PIDPPANEL}` with `ka10_pipanel.c` when PIDP10=1.
+make PIDP10=1 pdp10-ka
+sudo cp -a BIN/pdp10-ka /opt/pidp10/bin/pdp10-ka-ncp-pidp
+sudo chown pi:pi /opt/pidp10/bin/pdp10-ka-ncp-pidp
+sudo chmod 6755 /opt/pidp10/bin/pdp10-ka-ncp-pidp
+```
+
+A correct build prints or contains these indicators:
+
+```text
+Use NCP protocol
+PiDP-10 FP on
+ka10_pipanel.c
+GPIO chips:
+```
 
 ## Create a separate profile
 
