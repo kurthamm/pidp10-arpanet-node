@@ -13,7 +13,7 @@ Important parts:
 ```simh
 set imp num=41
 set mi1 enabled
-attach -u mi1 11141:<CIVITAE_TAILSCALE_IP>:11262
+attach -u mi1 11141:<SIMULATION_TAILSCALE_IP>:11262
 
 set hi1 enabled
 attach -u hi1 20411:127.0.0.1:20412
@@ -60,5 +60,5 @@ Expected local host link:
 Expected remote link:
 
 ```text
-<PI_TAILSCALE_IP>:11141 <-> <CIVITAE_TAILSCALE_IP>:11262
+<PI_TAILSCALE_IP>:11141 <-> <SIMULATION_TAILSCALE_IP>:11262
 ```
