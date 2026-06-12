@@ -18,13 +18,23 @@ The target host identity is:
 web terminal user
   -> terminal web application
   -> ARPANET simulation host
-  -> ncp-telnet client
+  -> PiDP SIMH MTY helper
+  -> Tailscale or equivalent overlay network
+  -> home Raspberry Pi
+  -> PiDP-10 KA10 simulator MTY line
+  -> ITS
+```
+
+The ARPANET network validation path is separate:
+
+```text
+ARPANET simulation host
   -> local simulated IMP mesh
-  -> remote link on Civitae IMP62
+  -> simulation-side IMP62 remote link
   -> overlay UDP path
   -> Pi IMP41
   -> PiDP-10 KA10 simulator IMP interface
-  -> ITS NCP TELSER
+  -> ITS NCP
 ```
 
 ## Components
@@ -33,7 +43,7 @@ web terminal user
 
 The simulation side continues to run the existing IMP farm and hosted terminal stack. One IMP port is configured as a remote link to the home Pi.
 
-In the working deployment, Civitae IMP62 used a remote modem/IMP interface pointed at the Pi's IMP41 UDP listener.
+In the working DigitalOcean deployment, IMP62 uses a remote modem/IMP interface pointed at the Pi's IMP41 UDP listener.
 
 ### Home Pi side
 
@@ -51,14 +61,14 @@ KA10 IMP interface 127.0.0.1:20412 <-> IMP41 host interface 127.0.0.1:20411
 IMP41 communicates with the ARPANET simulation over the overlay network:
 
 ```text
-IMP41 remote link local UDP 11141 <-> Civitae IMP62 remote UDP 11262
+IMP41 remote link local UDP 11141 <-> simulation-side IMP62 remote UDP 11262
 ```
 
 Use placeholders in published configs:
 
 ```text
 <PI_TAILSCALE_IP>
-<CIVITAE_TAILSCALE_IP>
+<SIMULATION_TAILSCALE_IP>
 ```
 
 ## Why a separate ITS profile
