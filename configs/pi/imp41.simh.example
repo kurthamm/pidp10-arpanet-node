@@ -5,9 +5,9 @@ set imp num=41
 do impcode.simh
 
 # IMP 41 on the PiDP-10 Raspberry Pi.
-# Replace <CIVITAE_TAILSCALE_IP> with the ARPANET simulation host overlay IP.
+# Replace <SIMULATION_TAILSCALE_IP> with the ARPANET simulation host overlay IP.
 set mi1 enabled
-attach -u mi1 11141:<CIVITAE_TAILSCALE_IP>:11262
+attach -u mi1 11141:<SIMULATION_TAILSCALE_IP>:11262
 
 # Host 0 on IMP41 is the PiDP-10 ITS profile.
 # The KA10 simulator attaches the opposite side: 20412:127.0.0.1:20411.
