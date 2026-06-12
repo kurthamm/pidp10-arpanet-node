@@ -96,6 +96,8 @@ TELNET to host 051.
 
 A fully interactive session should display the ITS greeting.
 
+If this stalls after `TELNET to host 051.` while `ncp-ping 41` works, the IMP/NCP path is up but the historical NCP TELNET service path is not healthy. Use the PiDP SIMH MTY line for browser terminal access and continue diagnosing TELSER separately.
+
 ## 7. Verify hosted terminal path
 
 From the hosted terminal page:
