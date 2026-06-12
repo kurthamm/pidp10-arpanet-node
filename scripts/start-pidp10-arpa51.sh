@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 screen -S pidp10 -X quit 2>/dev/null || true
-for pid in $(pgrep -f '^/opt/pidp10/bin/(pidp10|pdp10-ka|pdp10-ka-ncp) /opt/pidp10/systems/.*/boot\.(pi|pidp)$' || true); do
+for pid in $(pgrep -f '^/opt/pidp10/bin/(pidp10|pdp10-ka|pdp10-ka-ncp|pdp10-ka-ncp-pidp) /opt/pidp10/systems/.*/boot\.(pi|pidp)$' || true); do
   kill "$pid" 2>/dev/null || true
 done
 sleep 3
