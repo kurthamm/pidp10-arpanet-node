@@ -6,15 +6,14 @@ The working model is:
 
 ```text
 hosted web terminal
-  -> Civitae ARPANET simulation
-  -> remote IMP link
+  -> DigitalOcean ARPANET simulation
+  -> browser MTY route for interactive host 41 sessions
   -> Tailscale or equivalent overlay network
   -> home Raspberry Pi
-  -> simulated IMP 41
   -> PiDP-10 KA10 ITS host 41 / octal 051
 ```
 
-The result is that users can type `@L 41` in the hosted terminal and reach the PiDP-10 replica as ARPANET host `051`.
+The result is that users can type `@L 41` in the hosted terminal and reach the PiDP-10 replica as host `051`. ARPANET network reachability is validated separately over the IMP62/IMP41 path with NCP ping.
 
 ## What this repo is
 
@@ -50,7 +49,7 @@ The result is that users can type `@L 41` in the hosted terminal and reach the P
 
 ```text
 configs/
-  civitae/     Sanitized snippets for the ARPANET simulation side
+  simulation-host/  Sanitized snippets for the ARPANET simulation side
   pi/          Sanitized SIMH and PiDP config examples
 scripts/       Reusable operational scripts
 docs/          Reproducible setup and operations documentation
@@ -62,9 +61,9 @@ The working deployment verified these layers:
 
 1. PiDP-10 boots the separate `its-arpa51` profile.
 2. ITS reports `KA ITS 1652` on its console or MTY terminal.
-3. The Pi IMP and Civitae IMP have an established UDP path.
-4. From Civitae, `ncp-ping 41` replies.
-5. From the hosted terminal, `@L 41` reaches `TELNET to host 051` and displays the ITS greeting.
+3. The Pi IMP and DigitalOcean simulation-side IMP62 have an established UDP path.
+4. From the ARPANET simulation host, `ncp-ping 41` replies.
+5. From the hosted terminal, `@L 41` reaches the PiDP SIMH MTY path, displays `TELNET to host 051`, and shows the ITS greeting.
 
 ## Important design choice
 
