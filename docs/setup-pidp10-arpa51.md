@@ -98,6 +98,7 @@ Use SIMH `expect` in the boot file, matching the hosted ARPANET hosts:
 ```simh
 expect -p "DSKDMP" send "ITS\rIMPUS=\eG\r" ; continue
 expect -p "DO YOU REALLY WANT THE SYSTEM TO GO DOWN?\r_" send "yc\c"
+expect -p "YOU ARE NOW IN DDT." send "\033P" ; continue
 ```
 
 Do not rely on an external telnet-console script to type the DSKDMP commands after startup. That can race or drop bytes.
