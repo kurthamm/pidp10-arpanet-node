@@ -1,6 +1,7 @@
 cd /opt/pidp10/systems/its-arpa51
 expect -p "DSKDMP" send "ITS\rIMPUS=\eG\r" ; continue
 expect -p "DO YOU REALLY WANT THE SYSTEM TO GO DOWN?\r_" send "yc\c"
+expect -p "YOU ARE NOW IN DDT." send "\033P" ; continue
 
 SET CONSOLE TELNET=BUFFERED=144
 set cons -u telnet=1025
