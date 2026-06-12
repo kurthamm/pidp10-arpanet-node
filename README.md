@@ -61,7 +61,7 @@ docs/          Reproducible setup and operations documentation
 The working deployment verified these layers:
 
 1. PiDP-10 boots the separate `its-arpa51` profile.
-2. ITS reports `KA ITS 1652` and accepts NCP TELNET.
+2. ITS reports `KA ITS 1652` on its console or MTY terminal.
 3. The Pi IMP and Civitae IMP have an established UDP path.
 4. From Civitae, `ncp-ping 41` replies.
 5. From the hosted terminal, `@L 41` reaches `TELNET to host 051` and displays the ITS greeting.
