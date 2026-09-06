@@ -15,6 +15,7 @@ hosted web terminal
 
 The result is that users can type `@L 41` in the hosted terminal and reach the PiDP-10 replica as host `051`. ARPANET network reachability is validated separately over the IMP62/IMP41 path with NCP ping.
 
+- **[Persistent, crash-safe ITS](docs/persistence-crash-recovery.md)** — install software / make changes that persist and survive a power-off (HAMM-KA0 / host 49).
 ## What this repo is
 
 - A deployment/integration guide for a real PiDP-10 replica.

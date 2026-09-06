@@ -1,0 +1,148 @@
+cd /opt/pidp10/systems/its-arpa51
+expect -p "DSKDMP" send "L\e1\eL\e2\eL\e3\eITS\rIMPUS/61\r\eG\r" ; continue
+expect -p "DO YOU REALLY WANT THE SYSTEM TO GO DOWN?\r_" send "yc\c"
+expect -p "YOU ARE NOW IN DDT." send "\033P" ; continue
+
+
+echo
+echo =====================================================================
+echo
+SET CONSOLE TELNET=BUFFERED=144
+set cons -u telnet=1025
+echo
+echo use 'telnet localhost 1025' 
+echo or 'pdp view' or 'pdp con'  or 'pdp telcon' for PDP-10 console
+echo
+echo =====================================================================
+echo
+
+; Restore clean ARPA51 packs before booting, matching the hosted ARPANET reset model.
+;PERSIST ;!cp -a /opt/pidp10/src/its/out/pdp10-ka/rp03.[0-3] /opt/pidp10/src/its/out/pdp10-ka/dskdmp.rim /opt/pidp10/systems/its-arpa51/
+; comment out if you don't want chaosnet started:
+!pgrep cbridge && pkill -2 cbridge && echo stopped old cbridge && sleep 3
+; bug? seems we must be in cbridge home dir:
+;cd /opt/pidp10/bin
+!screen -dmS cbridge /opt/pidp10/bin/cbridge -c /opt/pidp10/bin/cbridge.conf
+;cd /opt/pidp10/systems/its
+
+
+; comment out if you do not want the Knight TV system started:
+; we start tv11 under screen, so you can reconnect to it for inspection
+!pgrep tv11 && pkill -2 tv11 && echo stopped old tv11 && sleep 3
+!screen -dmS tv11 /opt/pidp10/bin/tv11 -s 4 -p 10011 localhost
+
+;set console wru=037
+set cpu its
+set cpu 1024k
+set cpu idle
+set cpu mpx
+set rpa dis
+set rpb dis
+set tua dis
+set fha dis
+set dpb dis
+set lpt ena 
+set cr dis
+set dc disable
+set dtc dis
+set dk dis
+set pd enabled
+set pd on
+#set dpy scale
+#set dpy enabled
+set dk disabled
+set stk enabled
+set tk enabled
+at -u tk 10000 speed=300
+;at -u tk line=2,10012
+# 10001 reserved for GE bagbiters, hah.
+set dpk enabled
+at -u dpk 10002 speed=4800
+at -u dpk line=11,10019 speed=4800
+at -u dpk line=15,10020 speed=4800
+set mty enabled
+at -u mty 10003 speed=50000
+at -u mty line=9,10018 speed=9600
+at -u mty line=8,10017 speed=9600
+at -u mty line=7,10016;notelnet speed=50000
+at -u mty line=6,10015 speed=9600
+set ten11 enabled
+at -u ten11 10011
+set auxcpu enabled
+at auxcpu 10006
+!/home/pi/arpanet-bridge/start-imp49.sh
+set imp enabled
+set imp ncp
+; ARPANET profile: PiDP-10 ITS host on IMP 41 host 0 (unique host 49 / octal 061, HAMM-KA0).
+; Local H316 IMP41 listens on 20411 and talks to this PDP-10 on 20412.
+at -u imp 20412:127.0.0.1:20411
+at ptr ./dskdmp.rim
+at dpa0 ./rp03.2
+at dpa1 ./rp03.3
+at dpa2 ./rp03.0
+at dpa3 ./rp03.1
+set mta mpx=7
+set mta type=b
+set dt mpx=6
+set imp mpx=4
+set dpa noheaders
+
+set imx enabled mpx=3
+set imx channel=2;unit0;axis0;negate
+set imx channel=3;unit0;axis1
+set imx channel=10;unit0;axis3;negate
+set imx channel=5;unit1;axis0;negate
+set imx channel=6;unit1;axis1
+set imx channel=30;unit1;axis3;negate
+set imx channel=70;unit2;axis0
+set imx channel=71;unit2;axis1;negate
+set imx channel=73;unit2;axis3
+set imx channel=77;unit3;axis0
+set imx channel=76;unit3;axis1;negate
+set imx channel=74;unit3;axis3
+
+; ------------
+; enable chaosnet
+set ch enabled
+set ch node=177002
+set ch peer=localhost:44041
+att ch 44042
+; --------------
+; just quit on SIGTERM
+; reason: when you shut down the Pi, the shutdown process hangs 
+; for 90 seconds waiting for pidp10/simh to end. This fixes that problem:
+;set on
+;on sigterm exit
+; ah, but new problem: this works fine otherwise, but triggers a 
+; breakpoint when pressing READ IN!
+; unsolved
+; ------------
+
+
+;set ocnsls enabled
+set wcnsls enabled joystick 
+;set wcnsls enabled joystick cscope
+set dpy ena
+
+
+
+; 20240313 new simulator
+; ----------------------
+; set boot device number on maintenance panel
+dep readin 104
+
+; ----------------------------------------------------------------
+; so the user has a PiDP-10 front panel and should press READ IN before
+; booting starts.
+; This little blinky program is run until the moment that he does:
+d 1000 201000000777
+d 1001 241000000001
+d 1002 202000001007
+d 1003 700540001007
+d 1004 201100060650
+d 1005 366100001005
+d 1006 324000001001
+d 1007 000000000000
+;go 1000   ; AUTO-BOOT: was blinky wait-for-READ-IN; now b ptr below
+; AUTO-BOOT: disk read-in via DSKDMP; expect (top of file) sends ITS. No front-panel READ IN.
+b ptr
