@@ -1,0 +1,27 @@
+Adds the HAMM-KA0 login greeting to ITS's Telnet server (TELSER).
+
+The Telnet server picks a herald string by the 2-letter machine name (MCHN). For
+the PiDP-10 that name is "KA", which had no branch, so it fell through to the
+default "Unknown ITS PDP-10". This adds the KA branch.
+
+Apply on the Pi:
+    cd /opt/pidp10/src/its
+    patch -p1 < telser-hamm-ka0-greeting.patch      # (or add the two lines by hand)
+    # IMPORTANT: keep the .orig/.pre-* backup OUT of src/ (it pollutes sources.tape
+    # as a duplicate SYSNET;TELSER). Move any backup to ~/its-src-backups/.
+    rm -f out/pdp10-ka/sources.tape
+    make out/pdp10-ka/sources.tape EMULATOR=pdp10-ka BASICS=no MACSYMA=no
+    # then a full build bakes the greeting into the pack:
+    #   rm out/pdp10-ka/rp03.* ; make out/pdp10-ka/rp03.2 EMULATOR=pdp10-ka BASICS=no MACSYMA=no
+
+--- a/src/sysnet/telser.175
++++ b/src/sysnet/telser.175
+@@ -877,6 +877,8 @@
+ 	MOVEI A,[ASCIZ/Unknown ITS PDP-10/]
+ 	CAIN C,(SIXBIT/AI/)
+ 	 MOVEI A,[ASCIZ/MIT Artificial Intelligence Lab PDP-10/]
++	CAIN C,(SIXBIT/KA/)
++	 MOVEI A,[ASCIZ/Kurt Hamm PiDP-10 - Columbia, South Carolina/]
+ 	CAIN C,(SIXBIT/ML/)
+ ;	 MOVEI A,[ASCIZ/MIT Medical Liability PDP-10/]
+ ;	 MOVEI A,[ASCIZ/MIT Miraculously Living PDP-10/]
