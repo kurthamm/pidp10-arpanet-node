@@ -42,6 +42,7 @@ The result is that users can type `@L 41` in the hosted terminal and reach the P
 - [Setup: PiDP-10 ARPA51 profile](docs/setup-pidp10-arpa51.md)
 - [Setup: IMP41 bridge](docs/setup-imp41.md)
 - [Front-panel boot mapping](docs/front-panel-boot.md)
+- [Full ITS + games rebuild — status & next steps](docs/full-its-games-rebuild.md) — plan to give HAMM-KA0 the full ITS software set (games); PAUSED at rebuild-from-source step.
 - [Validation](docs/validation.md)
 - [Troubleshooting](docs/troubleshooting.md)
 - [Security and publishing notes](docs/security.md)
