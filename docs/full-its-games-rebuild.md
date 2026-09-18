@@ -21,9 +21,26 @@
   - **Gotcha fixed:** a stray `telser.175.pre-kurt-banner-*` backup in `src/sysnet/` was being
     tarred into `sources.tape` as a *duplicate* `SYSNET;TELSER`, which could clobber the greeting
     on the build disk. Keep source backups OUT of `src/` (moved to `~/its-src-backups/`).
-- **Note:** the *currently running* pack was built just before the greeting fix, so `@L 49` still
-  greets "Unknown ITS PDP-10" until either a re-apply or the next full rebuild picks up the baked-in
-  telser.
+- **Greeting restored on the LIVE pack (2026-09-18):** re-applied without a rebuild — TECO-edited
+  `SYSNET;TELSER` to add the `KA` branch (wrote v176), then `:MIDAS SYSBIN;TELSER_SYSNET;TELSER`
+  reassembled the telnet server. `@L 49` now greets **"Kurt Hamm PiDP-10 - Columbia, South
+  Carolina."** Persists (on the persistent pack) and is also baked into source for future builds.
+  - ITS TECO recipe used (logged in — turist can't write `SYSBIN`): `:teco` →
+    `ERSYSNET;TELSER$EWSYSNET;TELSER$Y` `N`<search "…Lab PDP-10/]">`$` `I`<the 2 `KA` lines>`$`
+    `EE$$` → `:MIDAS SYSBIN;TELSER_SYSNET;TELSER`.
+
+## Playing the games (finished 2026-09-18)
+
+`@L 49`, then **`:login <name>`** (authentic ITS — turist can't play; the museum's ITS is the same,
+`:login tourist`). Then:
+- `:advent` — Colossal Cave · `:zork` — Zork (MDL, "West of House")
+- `:chess` / `:chess2` — chess (added `SYS3;TS CHESS/CHESS2` links → `GAMES;` via `:link to,from`)
+- `:lisp gjd;sine lisp` — **Spacewar** (Knight-TV / Type 340 display — view with `pdp type340` on
+  the Pi over VNC, or `rpdp type340` from a laptop over Tailscale)
+- Eliza — present (`GAMES;ELIZA FASL`); loads via `:lisp` → `n` →
+  `(load (quote ((games) eliza fasl)))`; its start-function still needs pinning from source.
+
+To make a `GAMES;` program launch by name: `:link sys3;ts NAME,games;ts NAME` (logged in).
 
 ---
 
