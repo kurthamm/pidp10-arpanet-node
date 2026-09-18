@@ -37,8 +37,8 @@
 - `:chess` / `:chess2` — chess (added `SYS3;TS CHESS/CHESS2` links → `GAMES;` via `:link to,from`)
 - `:lisp gjd;sine lisp` — **Spacewar** (Knight-TV / Type 340 display — view with `pdp type340` on
   the Pi over VNC, or `rpdp type340` from a laptop over Tailscale)
-- Eliza — present (`GAMES;ELIZA FASL`); loads via `:lisp` → `n` →
-  `(load (quote ((games) eliza fasl)))`; its start-function still needs pinning from source.
+- Eliza — `:lisp` → `n` → `(load (quote |dsk:games;eliza fasl|))` → **`(^g)`** → "SPEAK UP!"
+  (entry function is `(^g)`, per `games;eliza.(init)`; confirmed talking).
 
 To make a `GAMES;` program launch by name: `:link sys3;ts NAME,games;ts NAME` (logged in).
 
