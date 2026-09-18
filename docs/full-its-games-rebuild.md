@@ -35,8 +35,9 @@
 `:login tourist`). Then:
 - `:advent` — Colossal Cave · `:zork` — Zork (MDL, "West of House")
 - `:chess` / `:chess2` — chess (added `SYS3;TS CHESS/CHESS2` links → `GAMES;` via `:link to,from`)
-- `:lisp gjd;sine lisp` — **Spacewar** (Knight-TV / Type 340 display — view with `pdp type340` on
-  the Pi over VNC, or `rpdp type340` from a laptop over Tailscale)
+- `:spcwar` (also `:spacewar`) — **Spacewar** (Type-340 display game — view with `pdp type340` on
+  the Pi over VNC, or `rpdp type340` from a laptop over Tailscale). NOTE: `:lisp gjd;sine lisp` is
+  *not* Spacewar — that just regenerates the sine table; the game is `GAMES;TS SPCWAR`.
 - `:eliza` — Eliza/DOCTOR. Made a one-command by `SUSPEND`ing an autostart Lisp band and linking it:
   `:lisp` → `n` → `(load (quote |dsk:games;eliza fasl|))` →
   `(progn (sstatus flush t)(gc)(sstatus toplevel (quote (^g)))(suspend (quote |:KILL |) (quote ((games) ts eliza))))`
@@ -46,6 +47,13 @@
 
 This is the ITS pattern for turning any Lisp game into a `:command` (cf. `animal.133`'s own `DUMP`:
 `(sstatus toplevel '(GAME))` + `(suspend '|:KILL | FILENAME)`), then link `SYS3;TS NAME → GAMES;`.
+
+**Every game is now one-command.** All the pre-built `GAMES;TS *` executables were linked into
+`SYS3;` (`:link sys3;ts NAME,games;ts NAME`), so each launches by `:name`:
+`:advent :zork :chess :chess2 :eliza :spcwar :spacewar :tvwar :trek :adv350 :adv448 :animal :bkg
+:ckr :dazdrt :guess :maze :mlife :nimlin :o :sprout :c :ocm`. Log in first (`:login <name>`).
+Display games (Spacewar `:spcwar`, TV-war `:tvwar`, MacHack `:c`/`:ocm`) draw on the **Type 340** —
+watch via `pdp type340`/rpdp/VNC.
 
 To make a `GAMES;` program launch by name: `:link sys3;ts NAME,games;ts NAME` (logged in).
 
