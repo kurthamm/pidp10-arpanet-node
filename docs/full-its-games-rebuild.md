@@ -37,8 +37,15 @@
 - `:chess` / `:chess2` — chess (added `SYS3;TS CHESS/CHESS2` links → `GAMES;` via `:link to,from`)
 - `:lisp gjd;sine lisp` — **Spacewar** (Knight-TV / Type 340 display — view with `pdp type340` on
   the Pi over VNC, or `rpdp type340` from a laptop over Tailscale)
-- Eliza — `:lisp` → `n` → `(load (quote |dsk:games;eliza fasl|))` → **`(^g)`** → "SPEAK UP!"
-  (entry function is `(^g)`, per `games;eliza.(init)`; confirmed talking).
+- `:eliza` — Eliza/DOCTOR. Made a one-command by `SUSPEND`ing an autostart Lisp band and linking it:
+  `:lisp` → `n` → `(load (quote |dsk:games;eliza fasl|))` →
+  `(progn (sstatus flush t)(gc)(sstatus toplevel (quote (^g)))(suspend (quote |:KILL |) (quote ((games) ts eliza))))`
+  → `:kill` → `:link sys3;ts eliza,games;ts eliza`. (Entry fn `(^g)` per `games;eliza.(init)`;
+  the whole band-make must be ONE `progn` or setting toplevel drops you into Eliza before `suspend`
+  runs. Suspend to `((games) …)` not `((sys3) …)` — the latter parses `sys3` as a device.)
+
+This is the ITS pattern for turning any Lisp game into a `:command` (cf. `animal.133`'s own `DUMP`:
+`(sstatus toplevel '(GAME))` + `(suspend '|:KILL | FILENAME)`), then link `SYS3;TS NAME → GAMES;`.
 
 To make a `GAMES;` program launch by name: `:link sys3;ts NAME,games;ts NAME` (logged in).
 
